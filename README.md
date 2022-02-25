@@ -10,9 +10,14 @@ https://github.com/openwrt/openwrt
 
 ## 编译源码
 
-把此仓库拷贝到OpenWrt源码的package文件夹下。
+把此仓库拷贝到OpenWrt源码的package文件夹下：
 
-然后切换到OpenWrt源码的根目录下，执行`make menuconfig`，在`Build the OpenWrt SK`上按y（这个SDK后面用来编译Rust代码，就是拥塞控制算法），在`kernel modules`-->`other modules`-->`kmod-tcp_ccp`上按m。
+```
+cd openwrt/package
+git clone https://github.com/hexiangdong0/ccp-openwrt
+```
+
+然后切换到OpenWrt源码的根目录下，执行`make menuconfig`，在`Build the OpenWrt SDK`上按y（这个SDK后面用来编译Rust代码，就是拥塞控制算法），在`kernel modules`-->`other modules`-->`kmod-tcp_ccp`上按m。
 
 然后保存并退出menuconfig。
 
@@ -20,12 +25,12 @@ https://github.com/openwrt/openwrt
 
 ## 安装OpenWrt及ccp
 
-用`openwrt-source-code/bin/targets/x86/64/openwrt-*.img.gz`解压出来的img安装OpenWrt（用官网下载的img好像无法安装编译出来的ccp），安装过程参考 https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm 。
+用`openwrt/bin/targets/x86/64/openwrt-*.img.gz`解压出来的img安装OpenWrt（用官网下载的img好像无法安装编译出来的ccp），安装过程参考 https://openwrt.org/docs/guide-user/virtualization/virtualbox-vm 。
 
 安装OpenWrt系统之后，将`openwrt-source-code/bin/targets/x86/64/packages/kmod-tcp_ccp*.ipk`上传到OpenWrt：
 
 ```
-cd bin/targets/x86/64/packages
+cd openwrt/bin/targets/x86/64/packages
 scp ./kmod-tcp_ccp*.ipk root@192.168.56.2:/tmp/
 ```
 
@@ -43,7 +48,7 @@ insmod ./tcp_ccp.ko
 在Ubuntu安装好Rust编译工具：
 
 ```
- curl https://sh.rustup.rs -sSf | sh -s -- -y -v --default-toolchain nightly
+curl https://sh.rustup.rs -sSf | sh -s -- -y -v --default-toolchain nightly
 ```
 
 克隆BBR仓库：
@@ -72,9 +77,10 @@ rustup target add x86_64-unknown-linux-musl
 
 ### 编译BBR
 
-切换到BBR源码目录，执行：
+切换到bbr目录，然后编译：
 
 ```
+cd bbr
 cargo build --target x86_64-unknown-linux-musl --release
 ```
 
