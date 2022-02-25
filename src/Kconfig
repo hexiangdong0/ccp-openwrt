@@ -1,0 +1,5 @@
+ <pre name="code" class="plain">config TCP_CCP
+ 	tristate "test tcp_ccp"
+	help
+		This is a example, for debugging kernel model.
+		If unsure, say N.
