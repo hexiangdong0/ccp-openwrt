@@ -40,7 +40,7 @@ insmod ./tcp_ccp.ko
 
 ## 安装BBR算法
 
-在Ubuntu参照 https://ccp-project.github.io/ccp-guide/setup/index.html 安装好Rust编译工具：
+在Ubuntu安装好Rust编译工具：
 
 ```
  curl https://sh.rustup.rs -sSf | sh -s -- -y -v --default-toolchain nightly
@@ -53,3 +53,33 @@ git clone https://github.com/ccp-project/ccp-kernel.git
 ```
 
 ### Rust 交叉编译设置
+
+解压前面编译得到的SDK压缩包：`openwrt/bin/targets/x86/64/openwrt-sdk*.tar.xz`，并在Terminal切换到解压后的文件夹中。
+
+设置环境变量：
+
+```
+PATH=$PATH:<SDK文件夹的绝对路径>/staging_dir/toolchain-x86_64_gcc-7.3.0_musl/bin
+export PATH
+export LC_ALL=C.UTF-8
+```
+
+设置交叉编译工具链
+
+```
+rustup target add x86_64-unknown-linux-musl
+```
+
+### 编译BBR
+
+切换到BBR源码目录，执行：
+
+```
+cargo build --target x86_64-unknown-linux-musl --release
+```
+
+将`bbr/target/x86_64-unknown-linux-musl/release/bbr`上传到OpenWrt中，然后在OpenWrt中执行
+
+```
+./bbr --ipc netlink
+```
