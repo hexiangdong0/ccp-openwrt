@@ -6,7 +6,7 @@
 
 https://github.com/openwrt/openwrt
 
-不要下载master分支，可能编译不通过，下载稳定版本的代码，比如 https://github.com/openwrt/openwrt/tree/openwrt-21.02 。
+不要下载master分支，可能编译不通过，下载稳定版本的代码，比如 https://github.com/openwrt/openwrt/tree/openwrt-18.06 ，21.02编译ccp会失败。
 
 ## 编译源码
 
